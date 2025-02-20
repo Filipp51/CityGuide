@@ -1,7 +1,7 @@
 // screens/MapScreen.tsx
 
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location"; // Импортируем библиотеку для геолокации
 
@@ -14,7 +14,8 @@ const locations = [
 export default function MapScreen({ navigation }: any) {
   const [userLocation, setUserLocation] = useState<any>(null); // Состояние для местоположения пользователя
   const [locationErrorMsg, setLocationErrorMsg] = useState<string>("");
-  const [visitedLocations, setVisitedLocations] = useState<boolean[]>([]); // Состояние для посещённых локаций
+  const [visitedLocations, setVisitedLocations] = useState<boolean[]>([false, false, false]); // Состояние для посещённых локаций
+  const [allVisited, setAllVisited] = useState(false); // Состояние для проверки, все ли локации посещены
 
   // Функция для получения местоположения пользователя
   const getUserLocation = async () => {
@@ -36,6 +37,10 @@ export default function MapScreen({ navigation }: any) {
       return distance < 0.01; // Если расстояние меньше 10 метров, считаем локацию посещённой
     });
     setVisitedLocations(newVisitedLocations);
+
+    // Проверяем, все ли локации посещены
+    const allVisited = newVisitedLocations.every((visited) => visited);
+    setAllVisited(allVisited);
   };
 
   // Функция для вычисления расстояния между двумя точками на земле (в километрах)
@@ -78,6 +83,7 @@ export default function MapScreen({ navigation }: any) {
               }}
               title={location.title}
               description={`Вы находитесь возле ${location.title}`}
+              pinColor={visitedLocations[index] ? "green" : "red"} // Меняем цвет маркера
             />
           ))}
           <Marker
@@ -101,6 +107,10 @@ export default function MapScreen({ navigation }: any) {
           {location.title}: {visitedLocations[index] ? "Посещено" : "Не посещено"}
         </Text>
       ))}
+
+      {allVisited && (
+        <Text style={styles.achievement}>Поздравляем! Вы посетили все локации!</Text> // Специальное достижение
+      )}
     </View>
   );
 }
@@ -125,6 +135,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
+  achievement: {
+    fontSize: 20,
+    color: "green",
+    textAlign: "center",
+    marginTop: 20,
+    fontWeight: "bold",
+  },
 });
+
 
 
