@@ -1,14 +1,15 @@
-// index.tsx
+// app/(tabs)/index.tsx
+
 import React from "react";
-import { View, Text } from "react-native"; // Просто отобразим что-то простое
+import AppNavigator from "../../navigation/AppNavigator"; // Импортируем AppNavigator
 
 export default function Index() {
-  return (
-    <View>
-      <Text>Добро пожаловать в CityGuide!</Text>
-    </View>
-  );
+  return <AppNavigator />; // Здесь не нужно оборачивать в NavigationContainer
 }
+
+
+
+
 
 
 

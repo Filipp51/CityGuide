@@ -5,3 +5,4 @@ export default function App() {
   return <AppNavigator />; // Используем наш навигатор в приложении
 }
 
+

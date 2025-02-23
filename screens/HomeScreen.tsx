@@ -1,5 +1,3 @@
-// screens/HomeScreen.tsx
-
 import React from "react";
 import { View, Text, Button } from "react-native";
 
@@ -20,9 +18,11 @@ export default function HomeScreen({ navigation }: any) {
       />
       <Button
         title="Посмотреть карту"
-        onPress={() => navigation.navigate("Map")} // Переход на карту
+        onPress={() => navigation.navigate("Map")}
       />
     </View>
   );
 }
+
+
 
